@@ -12,7 +12,6 @@ public class PagamentoComCartao extends Pagamento {
 
 	public PagamentoComCartao() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {

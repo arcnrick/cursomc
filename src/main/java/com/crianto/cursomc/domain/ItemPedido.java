@@ -5,10 +5,13 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore			// no resource, ñ vai ser serializado nem o pedido nem o produto qdo a partir daqui...
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
@@ -29,6 +32,7 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	@JsonIgnore
 	// se tiver o get pedido e produto, não força programação ter de chamar primeiro o itemPedidoPK para depois setar o pedido / produto
 	public Pedido getPedido() {
 		return id.getPedido();

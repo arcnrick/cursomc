@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -35,7 +35,9 @@ public class Produto implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "categoria_id")
 	)
 	private List<Categoria> categorias = new ArrayList<>();
-
+	
+	@JsonIgnore
+	// aki ñ precisa do JsonManagedReference, pois já foi colocado o ignore no ItemPedidoPK p/ evitar cíclica na resource
 	@OneToMany(mappedBy="id.produto")
 	private Set<ItemPedido> itens = new HashSet<>(); // o Set garantirá que não vai existir item repetido na coleção
 
@@ -50,6 +52,9 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
+	/* tudo que é começado com get, é serializado... com isso, vou ignorar o get abaixo para evitar referencia 
+	cíclica no serializamento pois já vão ser listados os itens dos pedidos */	
+	@JsonIgnore
 	public List<Pedido> getPedidos() {
 		
 		List<Pedido> lista = new ArrayList<>();
