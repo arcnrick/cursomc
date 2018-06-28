@@ -11,7 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.crianto.cursomc.domain.enums.EstadoPagamento;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED) // tbm poderia ser a single_table... 1 tab para cada filha
@@ -22,7 +22,8 @@ public abstract class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estado;
 	
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
@@ -30,7 +31,6 @@ public abstract class Pagamento implements Serializable {
 
 	public Pagamento() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {

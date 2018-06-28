@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -29,11 +28,13 @@ public class Pedido implements Serializable {
 	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
-	@JsonManagedReference
+	//@JsonManagedReference
+	/*Em teste realizados, o uso de @JsonManagedReference apresentou alguns problemas com o	envio dos dados 
+	Json em requisições, portanto será eliminado e a parte @JsonBackRefence será trocada pelo @JsonIgnore */
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;
 	
-	@JsonManagedReference
+	//@JsonManagedReference	
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -48,7 +49,6 @@ public class Pedido implements Serializable {
 	
 	public Pedido() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Pedido(Integer id, Date instante, /*Pagamento pagamento,*/ Cliente cliente, Endereco enderecoDeEntrega) {

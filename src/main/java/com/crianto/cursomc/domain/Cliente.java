@@ -15,8 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.crianto.cursomc.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cliente implements Serializable {
@@ -30,7 +29,10 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo; // internamente vai ser Integer, mas vai ser exposto como Tipocliente
 	
-	@JsonManagedReference	// isso aki é para listar junto, os endereços associados
+	//@JsonManagedReference	// isso aki é para listar junto, os endereços associados
+	/*Em teste realizados, o uso de @JsonManagedReference apresentou alguns problemas com o	envio dos dados 
+	Json em requisições, portanto será eliminado e a parte @JsonBackRefence será trocada pelo @JsonIgnore */
+	
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -39,13 +41,13 @@ public class Cliente implements Serializable {
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 	
-	@JsonBackReference			// os pedidos do cliente ñ serão serializados no resource
+	//@JsonBackReference			// os pedidos do cliente ñ serão serializados no resource
+	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
