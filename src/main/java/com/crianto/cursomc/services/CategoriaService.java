@@ -3,10 +3,12 @@ package com.crianto.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.crianto.cursomc.domain.Categoria;
 import com.crianto.cursomc.repositories.CategoriaRepository;
+import com.crianto.cursomc.services.exceptions.DataIntegrityException;
 import com.crianto.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -32,5 +34,15 @@ public class CategoriaService {
 		// verificar se o id existe, antes de fazer o update
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);			
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir categoria que possui produtos");
+		}
+		
 	}
 }
