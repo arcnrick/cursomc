@@ -37,9 +37,13 @@ public class CategoriaService {
 	
 	public Categoria update(Categoria obj) {
 		// verificar se o id existe, antes de fazer o update
-		find(obj.getId());
-		return repo.save(obj);
-	}
+		Categoria newObj = find(obj.getId());
+		
+		// a função abaixo serve para buscar os dados do banco e atualizar somente aqueles passados no parâmetro obj
+		updateData(newObj, obj);
+
+		return repo.save(newObj);
+	}	
 	
 	public void delete(Integer id) {
 		find(id);
@@ -64,4 +68,8 @@ public class CategoriaService {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+	}
+
 }
