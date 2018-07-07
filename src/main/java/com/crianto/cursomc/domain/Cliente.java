@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class Cliente implements Serializable {
 	/*Em teste realizados, o uso de @JsonManagedReference apresentou alguns problemas com o	envio dos dados 
 	Json em requisições, portanto será eliminado e a parte @JsonBackRefence será trocada pelo @JsonIgnore */
 	
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL) // a propriedade cascade está indicando que alteração no cliente reflete no endereço, logo, se apagar cliente, apaga tbm o endereço automaticamente
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	// o "Set" é um conjunto que não aceita repetição
