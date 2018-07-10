@@ -60,6 +60,17 @@ public class Pedido implements Serializable {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
+	// abaixo, coloco o get no método para que seja reconhecido pelo json e serializado
+	public double getValorTotal() {
+		double soma = 0.0;
+		
+		for (ItemPedido ip : itens) {
+			soma = soma + ip.getSubTotal();
+		}
+		
+		return soma;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
