@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.crianto.cursomc.services.DBService;
+import com.crianto.cursomc.services.EmailService;
+import com.crianto.cursomc.services.SmtpEmailService;
 
 @Configuration
 @Profile("prod")
@@ -30,4 +32,9 @@ public class ProdConfig {
 		dbService.instantiateTestDatabase();		
 		return true;
 	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();		
+	}	
 }
